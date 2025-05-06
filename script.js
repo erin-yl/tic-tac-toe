@@ -10,7 +10,18 @@ User and computer alternately marks a spot
 Game ends when one player marks 3 spots in a row or all sports are marked (tie)
 */
 
-function Gameboard() {
+const winConditions = [
+  [0, 1, 2],
+  [0, 3, 6],
+  [0, 4, 8],
+  [1, 4, 7],
+  [2, 5, 8],
+  [2, 4, 6],
+  [3, 4, 5],
+  [6, 7, 8]
+];
+
+function GameBoard() {
   const rows = 3;
   const columns = 3;
   const board = [];
@@ -23,12 +34,23 @@ function Gameboard() {
     }
   }
 
-  return { board };
+  const getBoard = () => board;
+
+  const placeMark = () => {
+    if (board[i] != []) return;
+    console.log("");
+    board.forEach((arr, i)=> {
+      console.log(arr.toString().replace(/,/g, "|"))
+    })
+  }
+
+  const printBoard = () => {
+    const boardWithCellValues = board.map((row) => row.map((cell) => cell.getValue()))
+    console.log(boardWithCellValues);
+  };
+
+    return { getBoard, placeMark, printBoard };
 }
-
-const getBoard = () => board;
-
-
 
 function Cell() {
   let value = 0;
@@ -47,7 +69,7 @@ function GameController(
   humanPlayer = "Human player",
   computerPlayer = "Computer player"
 ) {
-  const board = Gameboard();
+  const board = GameBoard();
 
   const players = [
     {
@@ -74,6 +96,7 @@ function GameController(
 
   const playRound = (column) => {
     // Place a mark for the current player
+    console.log(`Placing ${getCurrentPlayer().name}'s mark...`);
     board.placeMark(column, getCurrentPlayer().mark);
 
     switchPlayerTurn();
