@@ -1,21 +1,23 @@
 /* 
-Pseudocode:
+Structure:
 Game board object with board array manages the game state (IIFE)
 Player function creates player objects with name and marker properties
 Game controller object manages the game flow (IIFE)
 
 Steps:
-Initiate the game with empty cells
-Switch players to mark the cell
-Check the game state (ongoing/win/tie)
-End the game and reset the board
+Start the game with empty cells and players - game controller
+Switch players after each turn - game controller
+Update the cell with the marker - game board
+Check the game state (ongoing/win/tie) - game board
+End the game if it's a win or tie - game controller
+Reset the board - game board
 */
 
-// Game board module manages the state of the game board
 const gameBoard = (() => {
   let board = ['', '', '', '', '', '', '', '', ''];
 
-  const getBoard = () => [...board]; // Use board as a private array
+  // Use board as a private array
+  const getBoard = () => [...board];
 
   const markCell = (index, playerMarker) => {
     if (index >= 0 && index < board.length && board[index] === '') {
@@ -23,7 +25,7 @@ const gameBoard = (() => {
       console.log(`Cell ${index} marked with ${playerMarker}.`);
       return true;
     }
-    console.log(`Failed to mark cell ${index}. It's either taken or invalid.`);
+    console.log(`Unable to mark cell ${index}. Please select a new cell.`);
     return false;
   };
 
@@ -52,7 +54,7 @@ const gameBoard = (() => {
     if (board.includes('')) {
       return false;
     }
-    // It's a tie if there's no winner
+    // Check if there's a winner
     return !checkWin('X') && !checkWin('O');
   };
 
@@ -65,7 +67,6 @@ const gameBoard = (() => {
   };
 })();
 
-// Player factory function creates player objects
 const Player = (name, marker) => {
   const getName = () => name;
   const getMarker = () => marker;
@@ -73,7 +74,6 @@ const Player = (name, marker) => {
   return { getName, getMarker };
 };
 
-// Game controller module manages the game flow
 const GameController = (() => {
   let player1;
   let player2;
@@ -120,7 +120,7 @@ const GameController = (() => {
       } else if (gameBoard.checkWin(player2.getMarker())) {
         return `${player2.getName()} (${player2.getMarker()}) wins!`;
       } else if (gameBoard.checkTie()) {
-        return `It's a tie!`;
+        return 'The game is a tie!';
       }
       return 'Game is over or not started.';
     }
@@ -129,7 +129,7 @@ const GameController = (() => {
 
   const playTurn = (cellIndex) => {
     if (!gameActive) {
-      console.log('Game is not active. Please start a new game.');
+      console.log('Please start a new game.');
       return false;
     }
 
@@ -164,7 +164,7 @@ const GameController = (() => {
       console.log(`Game reset. It's ${currentPlayer.getName()}'s turn.`);
       displayBoardConsole();
     } else {
-      console.log('Cannot reset, game was not started with players.');
+      console.log('Unable to reset, game was not started with players.');
       startGame();
     }
   };
