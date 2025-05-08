@@ -1,24 +1,8 @@
-/* 
-Structure:
-Game board module with board array manages the game state (IIFE)
-Player function creates player objects with name and marker properties
-Game controller module manages the game flow (IIFE)
-Display controller module handles DOM manipulations
-
-Steps:
-Start the game with empty cells and players - game controller
-Switch players after each turn - game controller
-Update the cell with the marker - game board
-Check the game state (ongoing/win/tie) - game board
-End the game if it's a win or tie - game controller
-Reset the board - game board
-*/
-
+// Game board module manages the game state
 const gameBoard = (() => {
   let board = ['', '', '', '', '', '', '', '', ''];
 
-  // Use board as a private array
-  const getBoard = () => [...board];
+  const getBoard = () => [...board]; // Use board as a private array
 
   const markCell = (index, playerMarker) => {
     if (index >= 0 && index < board.length && board[index] === '') {
@@ -66,12 +50,14 @@ const gameBoard = (() => {
   };
 })();
 
+// Player function creates player objects
 const Player = (name, marker) => {
   const getName = () => name;
   const getMarker = () => marker;
   return { getName, getMarker };
 };
 
+// Display controller module handles DOM manipulations
 const displayController = (() => {
   const boardCells = document.querySelectorAll('.cell');
   const player1NameInput = document.getElementById('player1-name');
@@ -148,6 +134,7 @@ const displayController = (() => {
   };
 })();
 
+// Game controller module manages the game flow
 const gameController = (() => {
   let player1;
   let player2;
@@ -208,7 +195,6 @@ const gameController = (() => {
 
   const isGameActive = () => gameActive;
 
-  // Public interface
   return {
     initialize,
     isGameActive,
