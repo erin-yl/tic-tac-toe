@@ -36,7 +36,7 @@ h1 {
 
 .player-setup label {
   font-size: 1em;
-  margin-right: 10px;
+  margin-right: 4px;
   min-width: 160px;
   display: inline-block;
 }
@@ -46,7 +46,7 @@ h1 {
   font-size: 1em;
   padding: 8px;
   background-color: #fffceb;
-  border: none;
+  border: 1px solid transparent;
   border-radius: 4px;
 }
 
@@ -59,8 +59,6 @@ h1 {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
-  width: 300px;
-	height: 300px;
   gap: 4px;
   margin: 16px 0;
   background-color: #f7c548;
@@ -69,30 +67,31 @@ h1 {
 }
 
 .cell {
+  width: 100px;
+	height: 100px;
   background-color: #ffffff;
   border: none;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 4em;
-  font-weight: 600;
   cursor: pointer;
   box-sizing: border-box;
   border-radius: 4px;
   transition: background-color 0.2s ease-in-out;
 }
 
-.cell:hover:not(.X):not(.O) {
+.cell:hover:not(.marker) {
   background-color: #fffceb;
 }
 
-.cell.X, .cell.O {
+.cell.marker {
   color: #212428;
 }
 
 .winning-cell {
-  background-color: #ccd5ae !important;
-  color: white !important;
+  background-color: #fdf0d5 !important;
+  transition: background-color 0.2s ease-in-out;
 }
 
 #start-button {
@@ -102,11 +101,15 @@ h1 {
   cursor: pointer;
   background-color: #f7c548;
   border: none;
-  border-radius: 5px;
-  margin-bottom: 20px;
+  border-radius: 4px;
+  margin-bottom: 12px;
   transition: background-color 0.2s ease-in-out;
 }
 
 #start-button:hover {
   background-color: #edbb5c;
+}
+
+#message-display {
+  margin: 12px 0;
 }
